@@ -102,11 +102,14 @@ class ComboController extends Controller
      */
     public function edit($id)
     {
+        $combo = Combo::find($id);
+        $servicios = Servicio::pluck('nombre', 'id');
+        $precio = [];
+        foreach ($servicios as $id => $nombre) {
+            $precio[$id] = Servicio::find($id)->precio;
+        }
+        return view('combo.edit', compact('combo', 'servicios', 'precio'));
         
-    $combo = Combo::find($id);
-    $servicios = Servicio::pluck('nombre', 'id');
-    $precio = Servicio::whereIn('id', $combo->servicios->pluck('id'))->pluck('precio', 'id');
-    return view('combo.edit', compact('combo', 'servicios', 'precio'));
     }
     
 
@@ -118,18 +121,33 @@ class ComboController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Combo $combo)
-    {
-        request()->validate(Combo::$rules);
+{
+    $request->validate([
+        'nombre' => 'required',
+        'precio' => 'required|numeric',
+        'servicio_ids' => 'nullable|array',
+    ]);
 
-        // Actualizar información en la tabla combos
-        $combo->update($request->all());
-
-        // Actualizar información en la tabla intermedia combo_servicio
-        $combo->servicios()->sync($request->servicios);
-
-        return redirect()->route('combos.index')
-            ->with('success', 'Combo updated successfully');
+    $total = 0;
+    $servicios = Servicio::whereIn('id', $request->input('servicio_ids', []))->get();
+    foreach ($servicios as $servicio) {
+        $total += $servicio->precio;
     }
+
+    $descuento = $request->input('descuento', 0);
+    $precio_final = $total - $total * ($descuento / 100);
+
+    $combo->nombre = $request->input('nombre');
+    $combo->precio = $total;
+    $combo->descuento = $descuento;
+    $combo->precio_final = $precio_final;
+    $combo->save();
+
+    $combo->servicios()->sync($request->input('servicio_ids', []));
+
+    return redirect()->route('combos.index')
+        ->with('success', 'Combo actualizado correctamente.');
+}
 
     /**
      * @param int $id
