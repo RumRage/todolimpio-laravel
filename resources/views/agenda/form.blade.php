@@ -1,10 +1,15 @@
 <div class="box box-info padding-1">
     <div class="box-body">
+         
         
         <div class="form-group">
-            {{ Form::label('combo_id') }}
-            {{ Form::select('combo_id', $combos, $agenda->combo_id, ['class' => 'form-control' . ($errors->has('combo_id') ? ' is-invalid' : ''), 'placeholder' => 'Combo Id']) }}
-            {!! $errors->first('combo_id', '<div class="invalid-feedback">:message</div>') !!}
+            {{ Form::label('combo_ids[]', 'Combos') }}
+            <select class="form-control selectpicker" multiple data-live-search="true" name="combo_ids[]">
+            @foreach($combos as $id => $nombre)
+            <option value="{{ $id }}" data-precio="{{ $precio[$id] }}" {{ in_array($id, $agenda->combos->pluck('id')->toArray()) ? 'selected' : '' }} class="combos-precio">{{ $nombre }}</option>
+            @endforeach
+            </select>
+            {!! $errors->first('combos_ids', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('nombre') }}
@@ -27,24 +32,19 @@
             {!! $errors->first('precio', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
-            {{ Form::label('descuento') }}
-            {{ Form::text('descuento', $agenda->descuento, ['class' => 'form-control' . ($errors->has('descuento') ? ' is-invalid' : ''), 'placeholder' => 'Descuento']) }}
-            {!! $errors->first('descuento', '<div class="invalid-feedback">:message</div>') !!}
+        {{ Form::label('descuento') }}
+        {{ Form::text('descuento', $agenda->descuento, ['class' => 'form-control' . ($errors->has('descuento') ? ' is-invalid' : ''), 'placeholder' => 'Descuento']) }}
+        {!! $errors->first('descuento', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
-            {{ Form::label('precio_final') }}
-            {{ Form::text('precio_final', $agenda->precio_final, ['class' => 'form-control' . ($errors->has('precio_final') ? ' is-invalid' : ''), 'placeholder' => 'Precio Final']) }}
-            {!! $errors->first('precio_final', '<div class="invalid-feedback">:message</div>') !!}
+        {{ Form::label('precio_final') }}
+        {{ Form::text('precio_final', $agenda->precio_final ?: 0, ['class' => 'form-control' . ($errors->has('precio_final') ? ' is-invalid' : ''), 'placeholder' => 'Precio Final']) }}
+        {!! $errors->first('precio_final', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('metodo_pago') }}
-            {{ Form::text('metodo_pago', $agenda->metodo_pago, ['class' => 'form-control' . ($errors->has('metodo_pago') ? ' is-invalid' : ''), 'placeholder' => 'Metodo Pago']) }}
+            {{ Form::select('metodo_pago', ['Efectivo' => 'Efectivo', 'Transferencia' => 'Transferencia'], $agenda->metodo_pago, ['class' => 'form-control' . ($errors->has('metodo_pago') ? ' is-invalid' : ''), 'placeholder' => 'Selecciona un método de pago']) }}
             {!! $errors->first('metodo_pago', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
-        <div class="form-group">
-            {{ Form::label('estado') }}
-            {{ Form::text('estado', $agenda->estado, ['class' => 'form-control' . ($errors->has('estado') ? ' is-invalid' : ''), 'placeholder' => 'Estado']) }}
-            {!! $errors->first('estado', '<div class="invalid-feedback">:message</div>') !!}
         </div>
 
     </div>
@@ -52,3 +52,33 @@
         <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
     </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.selectpicker').selectpicker();
+  });
+
+  $('.selectpicker').on('changed.bs.select', function () {
+    var total = 0;
+    $('.selectpicker option:selected').each(function() {
+        total += parseFloat($(this).data('precio'));
+    });
+    var descuento = parseFloat($('#descuento').val());
+    var precio_final = total - total * (descuento / 100);
+    $('#precio').val(total);
+    $('#precio_final').val(precio_final.toFixed(2)); // redondea a 2 decimales
+});
+
+$('#descuento').on('input', function() {
+    var total = parseFloat($('#precio').val());
+    var descuento = parseFloat($(this).val());
+    var precio_final = total - total * (descuento / 100);
+    $('#precio_final').val(precio_final.toFixed(2));
+});
+$('#precio_final').on('input', function() {
+    var total = parseFloat($('#precio').val());
+    var precio_final = parseFloat($(this).val());
+    var descuento = 100 - ((precio_final / total) * 100);
+    $('#descuento').val(descuento.toFixed(2));
+});
+</script>

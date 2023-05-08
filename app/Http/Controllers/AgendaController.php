@@ -24,7 +24,6 @@ class AgendaController extends Controller
         return view('agenda.index', compact('agendas'))
             ->with('i', (request()->input('page', 1) - 1) * $agendas->perPage());
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -34,7 +33,13 @@ class AgendaController extends Controller
     {
         $agenda = new Agenda();
         $combos = Combo::pluck('nombre', 'id');
-        return view('agenda.create', compact('agenda', 'combos'));
+        $precio = [];
+        foreach ($combos as $id => $nombre) {
+            $precio[$id] = Combo::find($id)->precio;
+        }
+        $agenda->combos = $agenda->combos ?? collect(); // Inicializar la propiedad combos si es nula
+        return view('agenda.create', compact('agenda', 'combos', 'precio'));
+        
     }
 
     /**
@@ -45,13 +50,36 @@ class AgendaController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Agenda::$rules);
+        $request->validate([
+            'nombre' => 'required',
+            'precio' => 'required|numeric',
+            'combo_ids' => 'nullable|array',
+        ]);
 
-        $agenda = Agenda::create($request->all());
+        $total = 0;
+        $combos = Combo::whereIn('id', $request->input('combo_ids', []))->get();
+        foreach ($combos as $combo) {
+            $total += $combo->precio;
+        }
 
-        return redirect()->route('agendas.index')
-            ->with('success', 'Agenda created successfully.');
-    }
+        $descuento = $request->input('descuento', 0);
+        $precio_final = $total - $total * ($descuento / 100);
+
+        $agenda = Agenda::create([
+            'nombre' => $request->input('nombre'),
+            'telefono' => $request->input('telefono'),
+            'direccion' => $request->input('direccion'),
+            'precio' => $total,
+            'descuento' => $descuento,
+            'precio_final' => $precio_final,
+            'metodo_pago' => $request->input('metodo_pago'),
+        ]);
+
+    $agenda->combo()->sync($request->input('combo_ids', []));
+
+    return redirect()->route('agendas.index')
+        ->with('success', 'Nuevo Servicio agendado creado correctamente.');
+}
 
     /**
      * Display the specified resource.

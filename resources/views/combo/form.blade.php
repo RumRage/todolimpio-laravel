@@ -1,6 +1,6 @@
 <div class="box box-info padding-1">
     <div class="box-body">
-        
+         
         <div class="form-group">
             {{ Form::label('servicio_ids[]', 'Servicios') }}
             <select class="form-control selectpicker" multiple data-live-search="true" name="servicio_ids[]">
@@ -23,15 +23,15 @@
             {!! $errors->first('precio', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
-    {{ Form::label('descuento') }}
-    {{ Form::text('descuento', $combo->descuento, ['class' => 'form-control' . ($errors->has('descuento') ? ' is-invalid' : ''), 'placeholder' => 'Descuento']) }}
-    {!! $errors->first('descuento', '<div class="invalid-feedback">:message</div>') !!}
-</div>
-<div class="form-group">
-    {{ Form::label('precio_final') }}
-    {{ Form::text('precio_final', $combo->precio_final ?: 0, ['class' => 'form-control' . ($errors->has('precio_final') ? ' is-invalid' : ''), 'placeholder' => 'Precio Final']) }}
-    {!! $errors->first('precio_final', '<div class="invalid-feedback">:message</div>') !!}
-</div>
+        {{ Form::label('descuento') }}
+        {{ Form::text('descuento', $combo->descuento, ['class' => 'form-control' . ($errors->has('descuento') ? ' is-invalid' : ''), 'placeholder' => 'Descuento']) }}
+        {!! $errors->first('descuento', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
+        <div class="form-group">
+        {{ Form::label('precio_final') }}
+        {{ Form::text('precio_final', $combo->precio_final ?: 0, ['class' => 'form-control' . ($errors->has('precio_final') ? ' is-invalid' : ''), 'placeholder' => 'Precio Final']) }}
+        {!! $errors->first('precio_final', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
 
     </div>
     <div class="box-footer mt20">

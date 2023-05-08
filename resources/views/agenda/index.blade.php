@@ -54,7 +54,7 @@
                                         <tr>
                                             <td>{{ ++$i }}</td>
                                             
-											<td>{{ $agenda->combo->nombre}}</td>
+											<td>{{ implode(', ', $agenda->combo->pluck('nombre')->toArray()) }}</td>
 											<td>{{ $agenda->nombre }}</td>
 											<td>{{ $agenda->telefono }}</td>
 											<td>{{ $agenda->direccion }}</td>

@@ -51,28 +51,28 @@ class ComboController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'nombre' => 'required',
-        'precio' => 'required|numeric',
-        'servicio_ids' => 'nullable|array',
-    ]);
+    {
+        $request->validate([
+            'nombre' => 'required',
+            'precio' => 'required|numeric',
+            'servicio_ids' => 'nullable|array',
+        ]);
 
-    $total = 0;
-    $servicios = Servicio::whereIn('id', $request->input('servicio_ids', []))->get();
-    foreach ($servicios as $servicio) {
-        $total += $servicio->precio;
-    }
+        $total = 0;
+        $servicios = Servicio::whereIn('id', $request->input('servicio_ids', []))->get();
+        foreach ($servicios as $servicio) {
+            $total += $servicio->precio;
+        }
 
-    $descuento = $request->input('descuento', 0);
-    $precio_final = $total - $total * ($descuento / 100);
+        $descuento = $request->input('descuento', 0);
+        $precio_final = $total - $total * ($descuento / 100);
 
-    $combo = Combo::create([
-        'nombre' => $request->input('nombre'),
-        'precio' => $total,
-        'descuento' => $descuento,
-        'precio_final' => $precio_final,
-    ]);
+        $combo = Combo::create([
+            'nombre' => $request->input('nombre'),
+            'precio' => $total,
+            'descuento' => $descuento,
+            'precio_final' => $precio_final,
+        ]);
 
     $combo->servicios()->sync($request->input('servicio_ids', []));
 

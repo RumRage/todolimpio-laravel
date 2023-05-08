@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('agendas', function (Blueprint $table) {
             $table->engine="InnoDB"; 
             $table->bigIncrements('id');
-            $table->bigInteger('combo_id')->unsigned();
+            $table->unsignedBigInteger('servicio_ids')->nullable();
             $table->string('nombre');
             $table->string('telefono');
             $table->string('direccion');
@@ -26,9 +26,8 @@ return new class extends Migration
             $table->enum('metodo_pago', ['Efectivo', 'Transferencia']);
             $table->enum('estado', ['hecho', 'sin hacer'])->default('sin hacer');
             $table->timestamps();
-            $table->foreign('combo_id')->references('id')->on('combos')->onDelete("cascade");
             });
-    }
+    } 
 
     /**
      * Reverse the migrations.

@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Servicio;
+use App\Models\Agenda;
 /**
- * Class Combo
+ * Class Combo 
  *
  * @property $id
  * @property $servicio_id
@@ -45,10 +46,14 @@ class Combo extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
 
-    public function servicios()
-{
-    return $this->belongsToMany(Servicio::class, 'combo_servicio', 'combo_id', 'servicio_id');
-}
-    
+        public function servicios()
+    {
+        return $this->belongsToMany(Servicio::class, 'combo_servicio', 'combo_id', 'servicio_id');
+    }
+
+        public function agendas()
+    {
+        return $this->belongsToMany(Agenda::class);
+    }
 
 }
