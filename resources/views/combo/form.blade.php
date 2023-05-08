@@ -6,9 +6,8 @@
             <select class="form-control selectpicker" multiple data-live-search="true" name="servicio_ids[]">
             @foreach($servicios as $id => $nombre)
             <option value="{{ $id }}" data-precio="{{ $precio[$id] }}" {{ in_array($id, $combo->servicios->pluck('id')->toArray()) ? 'selected' : '' }} class="servicio-precio">{{ $nombre }}</option>
-@endforeach
-</select>
-
+            @endforeach
+            </select>
             {!! $errors->first('servicio_ids', '<div class="invalid-feedback">:message</div>') !!}
         </div>
 

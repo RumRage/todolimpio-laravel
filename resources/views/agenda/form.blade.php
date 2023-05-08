@@ -1,15 +1,15 @@
 <div class="box box-info padding-1">
     <div class="box-body">
          
-        
-        <div class="form-group">
+    <div class="form-group">
             {{ Form::label('combo_ids[]', 'Combos') }}
             <select class="form-control selectpicker" multiple data-live-search="true" name="combo_ids[]">
-            @foreach($combos as $id => $nombre)
-            <option value="{{ $id }}" data-precio="{{ $precio[$id] }}" {{ in_array($id, $agenda->combos->pluck('id')->toArray()) ? 'selected' : '' }} class="combos-precio">{{ $nombre }}</option>
-            @endforeach
-            </select>
-            {!! $errors->first('combos_ids', '<div class="invalid-feedback">:message</div>') !!}
+    @foreach($combos as $id => $nombre)
+        <option value="{{ $id }}" data-precio="{{ $precio[$id] }}" {{ $agenda->combos && in_array($id, $agenda->combos->pluck('id')->toArray()) ? 'selected' : '' }} class="combo-precio">{{ $nombre }}</option>
+    @endforeach
+</select>
+
+            {!! $errors->first('combo_ids', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('nombre') }}

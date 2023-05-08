@@ -121,33 +121,33 @@ class ComboController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Combo $combo)
-{
-    $request->validate([
-        'nombre' => 'required',
-        'precio' => 'required|numeric',
-        'servicio_ids' => 'nullable|array',
-    ]);
+    {
+        $request->validate([
+            'nombre' => 'required',
+            'precio' => 'required|numeric',
+            'servicio_ids' => 'nullable|array',
+        ]);
 
-    $total = 0;
-    $servicios = Servicio::whereIn('id', $request->input('servicio_ids', []))->get();
-    foreach ($servicios as $servicio) {
-        $total += $servicio->precio;
+        $total = 0;
+        $servicios = Servicio::whereIn('id', $request->input('servicio_ids', []))->get();
+        foreach ($servicios as $servicio) {
+            $total += $servicio->precio;
+        }
+
+        $descuento = $request->input('descuento', 0);
+        $precio_final = $total - $total * ($descuento / 100);
+
+        $combo->nombre = $request->input('nombre');
+        $combo->precio = $total;
+        $combo->descuento = $descuento;
+        $combo->precio_final = $precio_final;
+        $combo->save();
+
+        $combo->servicios()->sync($request->input('servicio_ids', []));
+
+        return redirect()->route('combos.index')
+            ->with('success', 'Combo actualizado correctamente.');
     }
-
-    $descuento = $request->input('descuento', 0);
-    $precio_final = $total - $total * ($descuento / 100);
-
-    $combo->nombre = $request->input('nombre');
-    $combo->precio = $total;
-    $combo->descuento = $descuento;
-    $combo->precio_final = $precio_final;
-    $combo->save();
-
-    $combo->servicios()->sync($request->input('servicio_ids', []));
-
-    return redirect()->route('combos.index')
-        ->with('success', 'Combo actualizado correctamente.');
-}
 
     /**
      * @param int $id

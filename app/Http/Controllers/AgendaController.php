@@ -89,11 +89,10 @@ class AgendaController extends Controller
      */
     public function show($id)
     {
-        $agenda = Agenda::find($id);
-
+        $agenda = Agenda::with('combo')->findOrFail($id);
         return view('agenda.show', compact('agenda'));
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -104,8 +103,14 @@ class AgendaController extends Controller
     {
         $agenda = Agenda::find($id);
         $combos = Combo::pluck('nombre', 'id');
-        return view('agenda.edit', compact('agenda', 'combos'));
+        $precio = [];
+        foreach ($combos as $id => $nombre) {
+            $precio[$id] = Combo::find($id)->precio;
+        }
+        return view('agenda.edit', compact('agenda', 'combos', 'precio'));
     }
+   
+    
 
     /**
      * Update the specified resource in storage.
@@ -115,13 +120,35 @@ class AgendaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Agenda $agenda)
-    {
-        request()->validate(Agenda::$rules);
+    {   
+        $request->validate([
+            'nombre' => 'required',
+            'precio' => 'required|numeric',
+            'combo_ids' => 'nullable|array',
+        ]);
 
-        $agenda->update($request->all());
+        $total = 0;
+        $combos = Combo::whereIn('id', $request->input('combo_ids', []))->get();
+        foreach ($combos as $combo) {
+            $total += $combo->precio;
+        }
+
+        $descuento = $request->input('descuento', 0);
+        $precio_final = $total - $total * ($descuento / 100);
+
+        $agenda->nombre = $request->input('nombre');
+        $agenda->telefono = $request->input('telefono');
+        $agenda->direccion = $request->input('direccion');
+        $agenda->precio = $total;
+        $agenda->descuento = $descuento;
+        $agenda->precio_final = $precio_final;
+        $agenda->metodo_pago = $request->input('metodo_pago');
+        $agenda->save();
+
+        $agenda->combo()->sync($request->input('combo_ids', []));
 
         return redirect()->route('agendas.index')
-            ->with('success', 'Agenda updated successfully');
+            ->with('success', 'Agenda actualizada correctamente.');
     }
 
     /**
@@ -131,9 +158,15 @@ class AgendaController extends Controller
      */
     public function destroy($id)
     {
-        $agenda = Agenda::find($id)->delete();
+        $agenda = Agenda::find($id);
+
+        // Eliminar los registros relacionados en la tabla intermedia agenda_combo
+        $agenda->combo()->detach();
+
+        // Eliminar el servicio agendado
+        $agenda->delete();
 
         return redirect()->route('agendas.index')
-            ->with('success', 'Agenda deleted successfully');
+               ->with('success', 'Servicio eliminado satisfactoriamente.');
     }
 }

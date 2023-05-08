@@ -2,7 +2,7 @@
 
 @section('template_title')
     {{ $agenda->name ?? "{{ __('Show') Agenda" }}
-@endsection
+@endsection 
 
 @section('content')
     <section class="content container-fluid">
@@ -20,12 +20,16 @@
 
                     <div class="card-body">
                         
+                    <div class="form-group">
+                        <strong>Combos:</strong>
+                        @foreach($agenda->combo as $combo)
+                            <div>{{ $combo->nombre }}</div>
+                        @endforeach
+                    </div>
+
+
                         <div class="form-group">
-                            <strong>Combo Id:</strong>
-                            {{ $agenda->combo_id }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Nombre:</strong>
+                            <strong>Nombre:</strong> 
                             {{ $agenda->nombre }}
                         </div>
                         <div class="form-group">

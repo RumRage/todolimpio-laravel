@@ -3,7 +3,7 @@
 @section('template_title')
     {{ $combo->name ?? "{{ __('Show') Combo" }}
 @endsection
-
+ 
 @section('content')
     <section class="content container-fluid">
         <div class="row">
