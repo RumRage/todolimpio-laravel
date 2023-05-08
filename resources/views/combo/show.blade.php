@@ -20,10 +20,13 @@
 
                     <div class="card-body">
                         
-                        <div class="form-group">
-                            <strong>Servicio Id:</strong>
-                            {{ $combo->servicio_id }}
-                        </div>
+                    <div class="form-group">
+                        <strong>Servicios:</strong>
+                        @foreach($combo->servicios as $servicio)
+                            <div>{{ $servicio->nombre }}</div>
+                        @endforeach
+                    </div>
+
                         <div class="form-group">
                             <strong>Nombre:</strong>
                             {{ $combo->nombre }}
