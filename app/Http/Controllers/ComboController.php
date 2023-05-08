@@ -155,10 +155,16 @@ class ComboController extends Controller
      * @throws \Exception
      */
     public function destroy($id)
-    {
-        $combo = Combo::find($id)->delete();
+{
+    $combo = Combo::find($id);
 
-        return redirect()->route('combos.index')
-            ->with('success', 'Combo deleted successfully');
-    }
+    // Eliminar los registros relacionados en la tabla intermedia combo_servicio
+    $combo->servicios()->detach();
+
+    // Eliminar el combo
+    $combo->delete();
+
+    return redirect()->route('combos.index')
+        ->with('success', 'Combo deleted successfully');
+}
 }
