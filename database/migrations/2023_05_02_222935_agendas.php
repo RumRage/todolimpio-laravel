@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('agendas', function (Blueprint $table) {
             $table->engine="InnoDB"; 
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('servicio_ids')->nullable();
+            $table->unsignedBigInteger('combo_ids')->nullable();
             $table->string('nombre');
             $table->string('telefono');
             $table->string('direccion');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->decimal('descuento', 8, 2)->default(0);
             $table->decimal('precio_final', 8, 2)->default(0);
             $table->enum('metodo_pago', ['Efectivo', 'Transferencia']);
-            $table->enum('estado', ['hecho', 'sin hacer'])->default('sin hacer');
+            $table->enum('estado', ['Hecho', 'Pendiente', 'Cancelado'])->default('Pendiente');
             $table->timestamps();
             });
     } 

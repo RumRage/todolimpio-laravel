@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Agenda
+    Cancelado
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Agenda') }}
+                                {{ __('Cancelado') }}
                             </span>
 
                              <div class="float-right">
@@ -63,28 +63,6 @@
 											<td>{{ $agenda->precio_final }}</td>
 											<td>{{ $agenda->metodo_pago }}</td>
 											<td>{{ $agenda->estado }}</td>
-
-                                            <td>
-                                                <form action="{{ route('agendas.destroy',$agenda->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('agendas.show',$agenda->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('agendas.edit',$agenda->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>                                                
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
-                                                </form>
-                                                <form action="{{ route('agendas.cancelado', $agenda->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-check"></i> {{ __('Cancelado') }}</button>
-                                                </form>
-                                                
-                                                <form action="{{ route('agendas.hecho', $agenda->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-check"></i> {{ __('Hecho') }}</button>
-                                                </form>
-
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

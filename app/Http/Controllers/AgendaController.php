@@ -19,7 +19,7 @@ class AgendaController extends Controller
      */
     public function index()
     {
-        $agendas = Agenda::paginate();
+        $agendas = Agenda::where('estado', 'Pendiente')->paginate();
 
         return view('agenda.index', compact('agendas'))
             ->with('i', (request()->input('page', 1) - 1) * $agendas->perPage());
@@ -169,4 +169,46 @@ class AgendaController extends Controller
         return redirect()->route('agendas.index')
                ->with('success', 'Servicio eliminado satisfactoriamente.');
     }
+/**
+ * Update the state of the specified resource in storage.
+ *
+ * @param  \Illuminate\Http\Request $request
+ * @param  int $id
+ * @param  int $estado
+ * @return \Illuminate\Http\Response
+ */
+public function marcarComoHecho($id)
+{
+    $agenda = Agenda::find($id);
+    $agenda->estado = 'Hecho';
+    $agenda->save();
+
+    return redirect()->route('historiales.index')
+        ->with('success', 'El servicio fue completado exitosamente.');
+}
+
+public function marcarComoCancelado($id)
+{
+    $agenda = Agenda::find($id);
+    $agenda->estado = 'Cancelado';
+    $agenda->save();
+
+    return redirect()->route('cancelados.index')
+        ->with('success', 'El servicio fue cancelado exitosamente.');
+}
+
+public function historiales()
+{
+    $agendas = Agenda::where('estado', 'Hecho')->paginate();
+    return view('agenda.historiales', compact('agendas'))
+        ->with('i', (request()->input('page', 1) - 1) * $agendas->perPage());
+}
+
+public function cancelados()
+{
+    $agendas = Agenda::where('estado', 'Cancelado')->paginate();
+    return view('agenda.cancelados', compact('agendas'))
+        ->with('i', (request()->input('page', 1) - 1) * $agendas->perPage());
+}
+
 }
