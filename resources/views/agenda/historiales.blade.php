@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Historial
+    Historiales
 @endsection
 
 @section('content')
@@ -13,11 +13,11 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Historial') }}
+                                {{ __('Historiales') }}
                             </span>
 
                              <div class="float-right">
-                                <a href="{{ route('historials.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                <a href="{{ route('agendas.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
                                   {{ __('Create New') }}
                                 </a>
                               </div>
@@ -50,29 +50,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($historials as $historial)
+                                    @foreach ($agendas as $agenda)
                                         <tr>
                                             <td>{{ ++$i }}</td>
                                             
-											<td>{{ $historial->combo->nombre }}</td>
-											<td>{{ $historial->nombre }}</td>
-											<td>{{ $historial->telefono }}</td>
-											<td>{{ $historial->direccion }}</td>
-											<td>{{ $historial->precio }}</td>
-											<td>{{ $historial->descuento }}</td>
-											<td>{{ $historial->precio_final }}</td>
-											<td>{{ $historial->metodo_pago }}</td>
-											<td>{{ $historial->estado }}</td>
+											<td>{{ implode(', ', $agenda->combo->pluck('nombre')->toArray()) }}</td>
+											<td>{{ $agenda->nombre }}</td>
+											<td>{{ $agenda->telefono }}</td>
+											<td>{{ $agenda->direccion }}</td>
+											<td>{{ $agenda->precio }}</td>
+											<td>{{ $agenda->descuento }}</td>
+											<td>{{ $agenda->precio_final }}</td>
+											<td>{{ $agenda->metodo_pago }}</td>
+											<td>{{ $agenda->estado }}</td>
 
-                                            <td>
-                                                <form action="{{ route('historials.destroy',$historial->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('historials.show',$historial->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('historials.edit',$historial->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
-                                                </form>
-                                            </td>
+                                         
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -80,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-                {!! $historials->links() !!}
+                {!! $agendas->links() !!}
             </div>
         </div>
     </div>

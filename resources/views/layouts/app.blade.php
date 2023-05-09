@@ -37,7 +37,10 @@
                             <a class="nav-link" href="{{ route('agendas.index') }}">{{ __('Agenda') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('historials.index') }}">{{ __('Historial') }}</a>
+                            <a class="nav-link" href="{{ route('historiales.index') }}">{{ __('Historial') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cancelados.index') }}">{{ __('Cancelados') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('servicios.index') }}">{{ __('Servicios') }}</a>
