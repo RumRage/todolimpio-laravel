@@ -24,6 +24,7 @@ Route::resource('combos', App\Http\Controllers\ComboController::class)->middlewa
 Route::resource('categorias', App\Http\Controllers\CategoriaController::class)->middleware('auth');
 Route::resource('agendas', App\Http\Controllers\AgendaController::class)->middleware('auth');
 Route::resource('historials', App\Http\Controllers\HistorialController::class)->middleware('auth');
-
+Route::resource('productos', App\Http\Controllers\ProductoController::class)->middleware('auth');
+Route::resource('descartables', App\Http\Controllers\DescartableController::class)->middleware('auth');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -48,6 +48,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('categorias.index') }}">{{ __('Categorias') }}</a>
                         </li>
+	                    <li class="nav-item">
+	                    	<a class="nav-link" href="{{ route('productos.index') }}">{{ __('Productos') }}</a>
+	                    </li>
+	                    <li class="nav-item">
+	                    	<a class="nav-link" href="{{ route('descartables.index') }}">{{ __('Descartables') }}</a>
+	                    </li>
                     </ul>
                     @endif 
                     <!-- Right Side Of Navbar -->
