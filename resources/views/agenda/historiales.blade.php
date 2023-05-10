@@ -54,7 +54,7 @@
 											<td>{{ $agenda->telefono }}</td>
 											<td>{{ $agenda->direccion }}</td>
                                             <td>{{ \Carbon\Carbon::parse($agenda->fecha_hora)->format('d/m/Y h:i A') }}</td>
-                                            <td>{{ implode(', ', $agenda->combo->pluck('nombre')->toArray()) }}</td>
+                                            <td>{{ implode(', ', $agenda->combos->pluck('nombre')->toArray()) }}</td>
 											<td>{{ $agenda->precio }}</td>
 											<td>{{ $agenda->descuento }}</td>
 											<td>{{ $agenda->precio_final }}</td>

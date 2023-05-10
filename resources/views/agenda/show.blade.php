@@ -22,7 +22,7 @@
                         
                     <div class="form-group">
                         <strong>Combos:</strong>
-                        @foreach($agenda->combo as $combo)
+                        @foreach($agenda->combos as $combo)
                             <div>{{ $combo->nombre }}</div>
                         @endforeach
                     </div>

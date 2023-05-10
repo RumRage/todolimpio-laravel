@@ -13,7 +13,7 @@
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">{{ __('Create') }} Agenda</span>
+                        <span class="card-title">{{ __('Create') }} Agregar nuevo servicio a la agenda</span>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('agendas.store') }}"  role="form" enctype="multipart/form-data">

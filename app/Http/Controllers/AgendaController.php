@@ -76,7 +76,7 @@ class AgendaController extends Controller
             'fecha_hora' => $request->input('fecha_hora'),
         ]);
 
-    $agenda->combo()->sync($request->input('combo_ids', []));
+        $agenda->combos()->syncWithoutDetaching($request->input('combo_ids', []));
 
     return redirect()->route('agendas.index')
         ->with('success', 'Nuevo Servicio agendado creado correctamente.');
@@ -90,7 +90,7 @@ class AgendaController extends Controller
      */
     public function show($id)
     {
-        $agenda = Agenda::with('combo')->findOrFail($id);
+        $agenda = Agenda::with('combos')->findOrFail($id);
         return view('agenda.show', compact('agenda'));
     }
     
@@ -163,7 +163,7 @@ class AgendaController extends Controller
         $agenda = Agenda::find($id);
 
         // Eliminar los registros relacionados en la tabla intermedia agenda_combo
-        $agenda->combo()->detach();
+        $agenda->combos()->detach();
 
         // Eliminar el servicio agendado
         $agenda->delete();

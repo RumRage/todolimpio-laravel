@@ -13,7 +13,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Agenda') }}
+                                {{ __('Agenda de servicios') }}
                             </span>
 
                              <div class="float-right">
@@ -58,7 +58,7 @@
 											<td>{{ $agenda->telefono }}</td>
 											<td>{{ $agenda->direccion }}</td>
                                             <td>{{ \Carbon\Carbon::parse($agenda->fecha_hora)->format('d/m/Y h:i A') }}</td>
-                                            <td>{{ implode(', ', $agenda->combo->pluck('nombre')->toArray()) }}</td>
+                                            <td>{{ implode(', ', $agenda->combos->pluck('nombre')->toArray()) }}</td>
 											<td>{{ $agenda->precio }}</td>
 											<td>{{ $agenda->descuento }}</td>
 											<td>{{ $agenda->precio_final }}</td>

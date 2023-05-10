@@ -28,16 +28,18 @@ class Agenda extends Model
 {
 
     static $rules = [
-        'combo_ids' => 'required|array',
         'nombre' => 'required',
         'telefono' => 'required',
         'direccion' => 'required',
+        'fecha_hora' => 'required',
+        'combo_ids' => 'required|array',
         'precio' => 'required',
         'descuento' => 'required',
         'precio_final' => 'required',
         'metodo_pago' => 'required',
         'estado' => 'required',
     ];
+    
 
     protected $perPage = 20;
 
@@ -46,13 +48,13 @@ class Agenda extends Model
      *
      * @var array
      */
-    protected $fillable = ['combo_ids', 'nombre', 'telefono', 'direccion', 'precio', 'descuento', 'precio_final', 'metodo_pago', 'estado'];
+    protected $fillable = ['nombre', 'telefono', 'direccion', 'fecha_hora', 'combo_ids', 'precio', 'descuento', 'precio_final', 'metodo_pago', 'estado'];
 
     /**
      * Get the combo for the agenda.
      */
-    public function combo()
-    {
-        return $this->belongsToMany(Combo::class, 'agenda_combo', 'agenda_id', 'combo_id');
-    }
+    public function combos()
+{
+    return $this->belongsToMany(Combo::class, 'agenda_combo', 'agenda_id', 'combo_id');
+}
 }
