@@ -73,8 +73,8 @@ class ComboController extends Controller
             'descuento' => $descuento,
             'precio_final' => $precio_final,
         ]);
-
-    $combo->servicios()->sync($request->input('servicio_ids', []));
+    
+    $combo->servicios()->syncWithoutDetaching($request->input('servicio_ids', []));
 
     return redirect()->route('combos.index')
         ->with('success', 'Combo creado correctamente.');

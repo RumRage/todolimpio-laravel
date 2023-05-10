@@ -14,11 +14,12 @@ return new class extends Migration
     Schema::create('combo_servicio', function (Blueprint $table) {
         $table->id();
         $table->unsignedBigInteger('combo_id');
-        $table->foreign('combo_id')->references('id')->on('combos');
+        $table->foreign('combo_id')->references('id')->on('combos')->onDelete('cascade');
         $table->unsignedBigInteger('servicio_id');
         $table->foreign('servicio_id')->references('id')->on('servicios');
         $table->timestamps();
     });
+   
 }
 
     /**
