@@ -73,6 +73,7 @@ class AgendaController extends Controller
             'descuento' => $descuento,
             'precio_final' => $precio_final,
             'metodo_pago' => $request->input('metodo_pago'),
+            'fecha_hora' => $request->input('fecha_hora'),
         ]);
 
     $agenda->combo()->sync($request->input('combo_ids', []));
@@ -143,6 +144,7 @@ class AgendaController extends Controller
         $agenda->descuento = $descuento;
         $agenda->precio_final = $precio_final;
         $agenda->metodo_pago = $request->input('metodo_pago');
+        $agenda->fecha_hora = $request->input('fecha_hora');
         $agenda->save();
 
         $agenda->combo()->sync($request->input('combo_ids', []));

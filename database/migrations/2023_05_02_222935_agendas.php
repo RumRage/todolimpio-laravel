@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('agendas', function (Blueprint $table) {
             $table->engine="InnoDB"; 
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('combo_ids')->nullable();
             $table->string('nombre');
             $table->string('telefono');
             $table->string('direccion');
+            $table->dateTime('fecha_hora')->nullable();
+            $table->unsignedBigInteger('combo_ids')->nullable();
             $table->decimal('precio', 8, 2);
             $table->decimal('descuento', 8, 2)->default(0);
             $table->decimal('precio_final', 8, 2)->default(0);

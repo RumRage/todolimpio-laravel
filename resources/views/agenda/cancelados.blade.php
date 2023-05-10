@@ -25,15 +25,15 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover">
+                        <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
-										<th>Combos</th>
 										<th>Nombre</th>
 										<th>Telefono</th>
 										<th>Direccion</th>
+                                        <th>Fecha</th>
+                                        <th>Combos</th>
 										<th>Precio</th>
 										<th>Descuento</th>
 										<th>Precio Final</th>
@@ -48,15 +48,17 @@
                                         <tr>
                                             <td>{{ ++$i }}</td>
                                             
-											<td>{{ implode(', ', $agenda->combo->pluck('nombre')->toArray()) }}</td>
 											<td>{{ $agenda->nombre }}</td>
 											<td>{{ $agenda->telefono }}</td>
 											<td>{{ $agenda->direccion }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($agenda->fecha_hora)->format('d/m/Y h:i A') }}</td>
+                                            <td>{{ implode(', ', $agenda->combo->pluck('nombre')->toArray()) }}</td>
 											<td>{{ $agenda->precio }}</td>
 											<td>{{ $agenda->descuento }}</td>
 											<td>{{ $agenda->precio_final }}</td>
 											<td>{{ $agenda->metodo_pago }}</td>
 											<td>{{ $agenda->estado }}</td>
+
                                         </tr>
                                     @endforeach
                                 </tbody>

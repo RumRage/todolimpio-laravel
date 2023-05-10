@@ -1,16 +1,6 @@
 <div class="box box-info padding-1">
     <div class="box-body">
          
-    <div class="form-group">
-            {{ Form::label('combo_ids[]', 'Combos') }}
-            <select class="form-control selectpicker" multiple data-live-search="true" name="combo_ids[]">
-    @foreach($combos as $id => $nombre)
-        <option value="{{ $id }}" data-precio="{{ $precio[$id] }}" {{ $agenda->combos && in_array($id, $agenda->combos->pluck('id')->toArray()) ? 'selected' : '' }} class="combo-precio">{{ $nombre }}</option>
-    @endforeach
-</select>
-
-            {!! $errors->first('combo_ids', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
         <div class="form-group">
             {{ Form::label('nombre') }}
             {{ Form::text('nombre', $agenda->nombre, ['class' => 'form-control' . ($errors->has('nombre') ? ' is-invalid' : ''), 'placeholder' => 'Nombre']) }}
@@ -25,6 +15,20 @@
             {{ Form::label('direccion') }}
             {{ Form::text('direccion', $agenda->direccion, ['class' => 'form-control' . ($errors->has('direccion') ? ' is-invalid' : ''), 'placeholder' => 'Direccion']) }}
             {!! $errors->first('direccion', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
+        <div class="form-group">
+            {{ Form::label('fecha_hora', 'Fecha y Hora') }}
+            {{ Form::datetimeLocal('fecha_hora', $agenda->fecha_hora ?? null, ['class' => 'form-control' . ($errors->has('fecha_hora') ? ' is-invalid' : '')]) }}
+            {!! $errors->first('fecha_hora', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
+        <div class="form-group">
+            {{ Form::label('combo_ids[]', 'Combos') }}
+            <select class="form-control selectpicker" multiple data-live-search="true" name="combo_ids[]">
+            @foreach($combos as $id => $nombre)
+            <option value="{{ $id }}" data-precio="{{ $precio[$id] }}" {{ $agenda->combos && in_array($id, $agenda->combos->pluck('id')->toArray()) ? 'selected' : '' }} class="combo-precio">{{ $nombre }}</option>
+            @endforeach
+            </select>
+            {!! $errors->first('combo_ids', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('precio') }}
