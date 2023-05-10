@@ -18,7 +18,7 @@
 
                              <div class="float-right">
                                 <a href="{{ route('agendas.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                                  {{ __('Agendar nuevo servicio') }}
                                 </a>
                               </div>
                         </div>

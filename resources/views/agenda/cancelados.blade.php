@@ -15,12 +15,6 @@
                             <span id="card_title">
                                 {{ __('Cancelado') }}
                             </span>
-
-                             <div class="float-right">
-                                <a href="{{ route('agendas.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
-                                </a>
-                              </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
