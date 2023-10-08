@@ -45,7 +45,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
+            'url' => 'https://egxmzwrpk0ntvwkm:zzd908u4ae743bnv@eanl4i1omny740jw.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/ovp73xk5ickx2wo1',
             'host' => 'eanl4i1omny740jw.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
             'port' => '3306',
             'database' => 'ovp73xk5ickx2wo1',
